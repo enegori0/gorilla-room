@@ -458,10 +458,10 @@ const VERTICAL=[
 const HORIZONTAL=[
   {label:'A横 · 電池',Comp:BatteryHW,fw:372,fh:210,obs:'372 × 210'},
   {label:'D横 · ロケット',Comp:RocketHW,fw:372,fh:210,obs:'372 × 210'},
-  {label:'🩷 メンダコ',Comp:MendakoW,fw:640,fh:140,obs:'950 × 200',warn:true},
+  {label:'🩷 メンダコ',Comp:MendakoW,fw:640,fh:140,obs:'950 × 200',warn:true,shrink:0.78},
 ];
 
-function Card({label,Comp,fw,fh,obs,warn,count,goal,reached,imgSrc,imgPos,onDrag}){
+function Card({label,Comp,fw,fh,obs,warn,shrink,count,goal,reached,imgSrc,imgPos,onDrag}){
   const boxRef=_.useRef(null);
   const [scale,setScale]=_.useState(0.5);
   // プレビュー枠に合わせて、ウィジェットがちょうど収まるよう自動スケール
@@ -471,7 +471,7 @@ function Card({label,Comp,fw,fh,obs,warn,count,goal,reached,imgSrc,imgPos,onDrag
       const availW=box.clientWidth-20;
       const availH=box.clientHeight-20;
       if(availW<=0||availH<=0)return;
-      const s=Math.min(availW/fw, availH/fh);
+      const s=Math.min(availW/fw, availH/fh)*(shrink||1);
       if(s>0) setScale(s);
     }
     fit();
@@ -479,7 +479,7 @@ function Card({label,Comp,fw,fh,obs,warn,count,goal,reached,imgSrc,imgPos,onDrag
     const ro=new ResizeObserver(fit);
     ro.observe(box);
     return()=>ro.disconnect();
-  },[fw,fh]);
+  },[fw,fh,shrink]);
   const dr=_.useRef(false),last=_.useRef({x:0,y:0});
   const onMouseDown=_.useCallback(e=>{if(!imgSrc)return;e.preventDefault();dr.current=true;last.current={x:e.clientX,y:e.clientY};
     const mv=ev=>{if(!dr.current)return;const dx=ev.clientX-last.current.x,dy=ev.clientY-last.current.y;last.current={x:ev.clientX,y:ev.clientY};onDrag&&onDrag(dx,dy);};
