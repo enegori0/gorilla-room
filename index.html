@@ -9,10 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 
-<a href="follower-designs.html" class="btn btn-pri">
-  フォロワー目標を見る
-</a>
-  
 :root{
   --bg:#f3f8fb;--bg2:#ffffff;--ink:#3a4754;--ink2:#7a8a99;
   --blue:#7db8d9;--blue2:#5da3cc;--blue-soft:#dceef7;--blue-line:#cfe3ef;
@@ -94,6 +90,9 @@ footer{position:relative;z-index:1;border-top:2px solid var(--blue-line);padding
 .tool-card:hover .tool-arrow{transform:translateX(5px);}
 .tool-card.soon{opacity:.55;pointer-events:none;}
 .soon-badge{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;background:var(--blue-soft);color:var(--blue2);border:1.5px solid var(--blue-line);padding:3px 10px;border-radius:20px;}
+.soon-list{margin-top:18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--ink2);}
+.soon-label{color:var(--blue2);font-weight:800;}
+.soon-dot{color:var(--blue-line);}
 
 /* about */
 .about{background:var(--bg2);border:2px solid var(--blue-line);border-radius:var(--r);padding:24px 26px;}
@@ -169,28 +168,16 @@ footer{position:relative;z-index:1;border-top:2px solid var(--blue-line);padding
       <div class="tool-icon">📊</div>
       <div>
         <div class="tool-name" data-editable data-key="tool1Name">フォロワー目標</div>
-        <div class="tool-desc" data-editable data-key="tool1Desc">フォロワー数を自動取得して表示するゲージウィジェット・全9デザイン</div>
+        <div class="tool-desc" data-editable data-key="tool1Desc">フォロワー数を自動取得して表示するゲージウィジェット・豊富なデザイン</div>
       </div>
       <div class="tool-foot"><span class="tool-bar"></span><span class="tool-arrow">→</span></div>
     </a>
-    <div class="tool-card soon">
-      <span class="soon-badge">COMING SOON</span>
-      <div class="tool-icon">⏰</div>
-      <div>
-        <div class="tool-name" data-editable data-key="tool2Name">時計オーバーレイ</div>
-        <div class="tool-desc" data-editable data-key="tool2Desc">配信画面に置けるかわいい時計（準備中）</div>
-      </div>
-      <div class="tool-foot"><span class="tool-bar" style="background:var(--blue-line);"></span><span class="tool-arrow">→</span></div>
-    </div>
-    <div class="tool-card soon">
-      <span class="soon-badge">COMING SOON</span>
-      <div class="tool-icon">✨</div>
-      <div>
-        <div class="tool-name" data-editable data-key="tool3Name">テキストアニメ</div>
-        <div class="tool-desc" data-editable data-key="tool3Desc">動くテキスト演出ツール（準備中）</div>
-      </div>
-      <div class="tool-foot"><span class="tool-bar" style="background:var(--blue-line);"></span><span class="tool-arrow">→</span></div>
-    </div>
+  </div>
+  <div class="soon-list">
+    <span class="soon-label">COMING SOON：</span>
+    <span data-editable data-key="soon1">⏰ 時計オーバーレイ</span>
+    <span class="soon-dot">・</span>
+    <span data-editable data-key="soon2">✨ テキストアニメーション</span>
   </div>
 </div>
 
@@ -208,6 +195,7 @@ footer{position:relative;z-index:1;border-top:2px solid var(--blue-line);padding
 <footer>
   <div class="footer-links">
     <a href="follower-designs.html" data-editable data-key="footerLink1">フォロワー目標</a>
+    <a href="privacy.html" data-editable data-key="footerLinkPrivacy">プライバシーポリシー</a>
     <a href="https://twitch.tv" target="_blank" data-editable data-key="footerLink2">Twitch</a>
   </div>
   <div class="footer-copy" data-editable data-key="footerCopy">© 2026 ゴリラの部屋</div>
