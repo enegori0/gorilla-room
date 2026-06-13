@@ -163,6 +163,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <footer>
   <div class="footer-links">
     <a href="gorilla-room.html" data-editable data-key="footerLink1">トップ</a>
+    <a href="privacy.html" data-editable data-key="footerLinkPrivacy">プライバシーポリシー</a>
     <a href="https://enegori0.github.io/obs-follower-widget/" target="_blank" data-editable data-key="footerLink2">ウィジェットを開く</a>
   </div>
   <div class="footer-copy" data-editable data-key="footerCopy">© 2026 ゴリラの部屋</div>
@@ -696,23 +697,88 @@ function BobaDomeWidget({ count, goal, reached }) {
 }
 
 
+/* ===== H1 セグメントバー / H7 イコライザー（横型）===== */
+function SegBarHWidget({ count, goal, reached }) {
+  const pct = c01(count / goal);
+  const accent = '#9147ff', accent2 = '#b794ff';
+  const N = 16, lit = Math.round(N * pct);
+  const x0 = 24, y = 40, w = 242, gap = 4, segW = (w - gap * (N - 1)) / N, segH = 44;
+  return (
+    <Shell accent={accent} accentSoft={accent2} title="フォロワー目標" kicker="Loading" count={count} goal={goal} reached={reached} W={372} H={210}>
+      <svg viewBox="0 0 290 110" width="334" style={{ overflow: 'visible' }}>
+        <defs>
+          <linearGradient id="seg-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor={accent2} /><stop offset="1" stopColor={accent} /></linearGradient>
+        </defs>
+        {/* track */}
+        <rect x={x0 - 6} y={y - 6} width={w + 12} height={segH + 12} rx="12" fill={TH.vessel} stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
+        {Array.from({ length: N }, (_, i) => {
+          const on = i < lit;
+          return (
+            <g key={i} style={{ transition: 'opacity .3s' }}>
+              <rect x={x0 + i * (segW + gap)} y={y} width={segW} height={segH} rx="3"
+                fill={on ? 'url(#seg-g)' : 'rgba(255,255,255,0.05)'}
+                style={{ filter: on ? `drop-shadow(0 0 5px ${accent}aa)` : 'none', transition: 'fill .3s, filter .3s' }}>
+                {on && i === lit - 1 && <animate attributeName="opacity" values="1;0.55;1" dur="1s" repeatCount="indefinite" />}
+              </rect>
+            </g>
+          );
+        })}
+        {reached && <rect x={x0 - 6} y={y - 6} width={w + 12} height={segH + 12} rx="12" fill="none" stroke={accent} strokeWidth="2.5"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.3s" repeatCount="indefinite" /></rect>}
+        <text x="145" y="102" textAnchor="middle" fontFamily={TH.font} fontWeight="600" fontSize="14" fill={TH.textLo}>{Math.round(pct * 100)}%</text>
+        <Sp show={reached} color={accent} points={[{ x: 30, y: 22, s: 7 }, { x: 260, y: 24, s: 6 }, { x: 145, y: 14, s: 7 }]} />
+      </svg>
+    </Shell>
+  );
+}
+
+
+function EqualizerHWidget({ count, goal, reached }) {
+  const pct = c01(count / goal);
+  const accent = '#b794ff', accent2 = '#ff7eb6';
+  const N = 22, lit = Math.round(N * pct);
+  const x0 = 26, baseY = 86, w = 238, gap = 3, barW = (w - gap * (N - 1)) / N;
+  const heights = Array.from({ length: N }, (_, i) => 14 + Math.abs(Math.sin(i * 0.9) * 0.6 + Math.sin(i * 0.37) * 0.4) * 44);
+  return (
+    <Shell accent={accent} accentSoft={accent2} title="フォロワー目標" kicker="Now Playing" count={count} goal={goal} reached={reached} W={372} H={210}>
+      <svg viewBox="0 0 290 112" width="334" style={{ overflow: 'visible' }}>
+        <defs>
+          <linearGradient id="eq-g" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={accent2} /><stop offset="1" stopColor={accent} /></linearGradient>
+        </defs>
+        <line x1={x0 - 4} y1={baseY + 3} x2={x0 + w + 4} y2={baseY + 3} stroke="rgba(255,255,255,0.1)" strokeWidth="2" strokeLinecap="round" />
+        {heights.map((h, i) => {
+          const on = i < lit;
+          const x = x0 + i * (barW + gap);
+          return (
+            <rect key={i} x={x} y={baseY - h} width={barW} height={h} rx={barW / 2}
+              fill={on ? 'url(#eq-g)' : 'rgba(255,255,255,0.07)'}
+              style={{ filter: on ? `drop-shadow(0 0 4px ${accent}88)` : 'none', transition: 'fill .3s' }}>
+              {on && <animate attributeName="height" values={`${h};${h * 0.5};${h};${h * 0.8};${h}`} dur={`${0.8 + (i % 5) * 0.18}s`} repeatCount="indefinite" />}
+              {on && <animate attributeName="y" values={`${baseY - h};${baseY - h * 0.5};${baseY - h};${baseY - h * 0.8};${baseY - h}`} dur={`${0.8 + (i % 5) * 0.18}s`} repeatCount="indefinite" />}
+            </rect>
+          );
+        })}
+        <text x="145" y="106" textAnchor="middle" fontFamily={TH.font} fontWeight="600" fontSize="13" fill={TH.textLo}>{Math.round(pct * 100)}% 再生中</text>
+        <Sp show={reached} color={accent} points={[{ x: 34, y: 20, s: 7 }, { x: 256, y: 22, s: 6 }, { x: 145, y: 12, s: 7 }]} />
+      </svg>
+    </Shell>
+  );
+}
+
+
+
 const VERTICAL=[
   {label:'A · 電池（チャージ）',Comp:BatteryW,fw:372,fh:462,obs:'372 × 462'},
-  {label:'B · 熊マスコット',Comp:BearW,fw:372,fh:462,obs:'372 × 462'},
-  {label:'C · 植物（開花）',Comp:PlantW,fw:372,fh:462,obs:'372 × 462'},
   {label:'D · ロケット',Comp:RocketW,fw:372,fh:462,obs:'372 × 462'},
-  {label:'E · コイン瓶',Comp:CoinJarW,fw:372,fh:462,obs:'372 × 462'},
-  {label:'F · 山登り',Comp:MountainW,fw:372,fh:462,obs:'372 × 462'},
   {label:'K1 · 温度計（クラシック）',Comp:ThermometerWidget,fw:372,fh:462,obs:'372 × 462'},
   {label:'K2 · 温度計（丸ゲージ）',Comp:ThermoGaugeWidget,fw:372,fh:462,obs:'372 × 462'},
-  {label:'K3 · 温度計（セグメント）',Comp:ThermoSegmentWidget,fw:372,fh:462,obs:'372 × 462'},
   {label:'L1 · タピオカ（トール）',Comp:BobaWidget,fw:372,fh:462,obs:'372 × 462'},
   {label:'L2 · タピオカ（まんまる）',Comp:BobaRoundWidget,fw:372,fh:462,obs:'372 × 462'},
-  {label:'L3 · タピオカ（ドーム蓋）',Comp:BobaDomeWidget,fw:372,fh:462,obs:'372 × 462'},
 ];
 const HORIZONTAL=[
   {label:'A横 · 電池',Comp:BatteryHW,fw:372,fh:210,obs:'372 × 210'},
   {label:'D横 · ロケット',Comp:RocketHW,fw:372,fh:210,obs:'372 × 210'},
+  {label:'H1 · セグメントバー',Comp:SegBarHWidget,fw:372,fh:210,obs:'372 × 210'},
+  {label:'H7 · イコライザー',Comp:EqualizerHWidget,fw:372,fh:210,obs:'372 × 210'},
   {label:'🩷 メンダコ',Comp:MendakoW,fw:640,fh:140,obs:'950 × 200',warn:true,shrink:0.78},
 ];
 
